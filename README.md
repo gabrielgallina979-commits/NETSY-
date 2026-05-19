@@ -85,3 +85,4 @@ if (searchBar) {
 
 // Inicia o app mostrando os filmes
 renderizarFilmes(catalogoFilmes);
+index.html
