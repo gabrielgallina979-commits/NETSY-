@@ -52,6 +52,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script ="script.js"></script>
 </body>
 </html>
