@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+                <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NETSY - Filmes e Séries</title>
-    <!-- Tailwind CSS para o visual moderno -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         body { background-color: black; color: white; font-family: sans-serif; }
@@ -16,80 +15,63 @@
     <header class="flex items-center justify-between px-8 py-6 border-b border-white/10">
         <h1 class="text-4xl font-black text-red-600">NETSY</h1>
         <div class="flex gap-4">
-            <button onclick="abrirBloqueio()" class="bg-white text-black px-5 py-2 rounded-xl font-bold opacity-80 cursor-pointer">Entrar</button>
-            <button onclick="abrirBloqueio()" class="bg-red-600 px-5 py-2 rounded-xl font-bold cursor-pointer">Assinar R$19</button>
+            <span class="bg-zinc-800 text-white px-4 py-2 rounded-xl font-bold text-sm flex items-center">Modo Administrador 🔓</span>
         </div>
     </header>
 
-    <!-- BANNER PRINCIPAL (HERO) -->
-    <section class="relative h-[500px] flex items-center px-10 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?q=80&w=1600&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+    <!-- BANNER PRINCIPAL -->
+    <section class="relative h-[400px] flex items-center px-10 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?q=80&w=1600&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-30" />
         <div class="relative z-10 max-w-2xl">
-            <h2 class="text-6xl font-black leading-tight">Filmes e séries ilimitados</h2>
-            <p class="text-xl text-white/80 mt-6 leading-relaxed">Assista na NETSY com streaming premium, IA personalizada e conteúdo exclusivo.</p>
-            <div class="flex gap-5 mt-10">
-                <button onclick="abrirBloqueio()" class="bg-red-600 px-8 py-4 rounded-2xl text-xl font-bold hover:scale-105 transition cursor-pointer">Assistir Agora</button>
-                <button onclick="abrirBloqueio()" class="bg-white/10 border border-white/20 px-8 py-4 rounded-2xl text-xl font-bold cursor-pointer">Ver Catálogo</button>
+            <h2 class="text-5xl font-black leading-tight">Seu Catálogo Ativo</h2>
+            <p class="text-lg text-white/80 mt-4">Clique em qualquer título abaixo para assistir ao conteúdo em tempo real.</p>
+        </div>
+    </section>
+
+    <!-- PLAYER DE VÍDEO (Aparece quando clica no filme) -->
+    <section id="videoPlayerSection" style="display: none;" class="px-8 py-8 bg-zinc-900 border-b border-white/10">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="playingTitle" class="text-2xl font-bold text-red-500">Assistindo</h3>
+                <button onclick="fecharPlayer()" class="bg-red-600 text-white px-4 py-2 rounded-xl font-bold text-sm cursor-pointer">✕ Fechar Player</button>
+            </div>
+            <!-- O Player de Verdade -->
+            <div class="relative pt-[56.25%] bg-black rounded-2xl overflow-hidden shadow-2xl">
+                <iframe id="videoIframe" class="absolute inset-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
     </section>
 
     <!-- GRADE DE FILMES -->
-    <section class="px-8 py-14">
-        <div class="flex items-center justify-between mb-8">
-            <h3 class="text-3xl font-black">Em Alta</h3>
-            <span class="text-white/60">NETSY Originals</span>
-        </div>
+    <section class="px-8 py-12">
+        <h3 class="text-3xl font-black mb-8">Assistir Agora (Grátis)</h3>
         <div class="grid md:grid-cols-3 gap-8" id="moviesGrid"></div>
     </section>
 
-    <!-- BANNER DE ASSINATURA INFERIOR -->
-    <section class="px-8 pb-20">
-        <div class="bg-gradient-to-r from-red-700 to-red-500 rounded-[40px] p-10 text-center shadow-2xl">
-            <h3 class="text-5xl font-black">Assine a NETSY</h3>
-            <p class="text-xl text-white/80 mt-5">Apenas R$19/mês com filmes, séries e streaming premium.</p>
-            <button onclick="abrirBloqueio()" class="mt-8 bg-white text-red-600 px-10 py-5 rounded-2xl text-2xl font-black hover:scale-105 transition cursor-pointer">Começar Agora</button>
-        </div>
-    </section>
-
-    <!-- TELA DE BLOQUEIO (POP-UP DO PIX DE R$ 19) -->
-    <div id="paywallModal" style="display: none;" class="fixed inset-0 bg-black/90 z-50 flex justify-center items-center p-4">
-        <div class="bg-zinc-900 border border-zinc-800 text-center p-8 rounded-[30px] max-w-md w-full relative shadow-2xl">
-            
-            <div class="text-5xl text-red-600 mb-4">🔒</div>
-            <h2 class="text-2xl font-black mb-2">Conteúdo Exclusivo</h2>
-            <p class="text-zinc-400 mb-6 text-sm">Assine o plano premium da NETSY para liberar o player e assistir a todo o catálogo imediatamente.</p>
-            
-            <div class="bg-zinc-800/50 p-5 rounded-2xl mb-6 border border-zinc-800">
-                <span class="text-zinc-400 text-sm block">Acesso Mensal Completo</span>
-                <span class="text-4xl font-black text-white block mt-1">R$ 19,00</span>
-                <span class="text-zinc-500 text-xs block mt-1">Cobrança única via Pix ou Cartão</span>
-            </div>
-
-            <!-- LINK DO MERCADO PAGO -->
-            <a href="https://link.mercadopago.com.br/netsy" target="_blank" class="block w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-xl text-lg transition shadow-lg shadow-red-600/20 mb-3">
-                🚀 Ativar Minha Assinatura
-            </a>
-
-            <!-- BOTÃO NOVO GRANDE PARA FECHAR NO CELULAR -->
-            <button onclick="fecharBloqueio()" class="block w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold py-3 rounded-xl text-sm transition cursor-pointer">
-                ❌ Fechar e Voltar ao Catálogo
-            </button>
-
-            <p class="text-zinc-600 text-xs mt-4">Liberação instantânea. Cancele quando quiser.</p>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT -->
     <script>
+        // Lista de conteúdos com links REAIS do YouTube para rodar direto no site
         const movies = [
-            { title: 'Cyber Future', image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop' },
-            { title: 'Dark City', image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1200&auto=format&fit=crop' },
-            { title: 'Netsy Originals', image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=1200&auto=format&fit=crop' }
+            { 
+                title: 'Shrek - Especial', 
+                image: 'https://images.unsplash.com/photo-1608889174639-41a41675a89b?q=80&w=600&auto=format&fit=crop',
+                videoUrl: 'https://www.youtube.com/embed/CwXOrWv6YlY' // Link incorporado do Shrek
+            },
+            { 
+                title: 'Peppa Pig Oficial', 
+                image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=600&auto=format&fit=crop',
+                videoUrl: 'https://www.youtube.com/embed/1B1GfcG9g_8' // Link oficial Peppa Pig
+            },
+            { 
+                title: 'Animação e Histórias', 
+                image: 'https://images.unsplash.com/photo-1620428268482-cf1851a36764?q=80&w=600&auto=format&fit=crop',
+                videoUrl: 'https://www.youtube.com/embed/l847v7vI8L0' // Desenho infantil animado
+            }
         ];
 
         const grid = document.getElementById('moviesGrid');
-        const paywallModal = document.getElementById('paywallModal');
+        const playerSection = document.getElementById('videoPlayerSection');
+        const videoIframe = document.getElementById('videoIframe');
+        const playingTitle = document.getElementById('playingTitle');
 
         if (grid) {
             grid.innerHTML = "";
@@ -97,28 +79,33 @@
                 const card = document.createElement('div');
                 card.className = "bg-zinc-900 rounded-3xl overflow-hidden hover:scale-105 transition duration-300 shadow-2xl cursor-pointer";
                 card.innerHTML = `
-                    <img src="${movie.image}" class="w-full h-72 object-cover" />
+                    <img src="${movie.image}" class="w-full h-52 object-cover" />
                     <div class="p-6">
-                        <h4 class="text-2xl font-bold text-white">${movie.title}</h4>
-                        <button class="mt-5 w-full bg-red-600 py-3 rounded-xl font-bold text-white">
-                            Assistir
+                        <h4 class="text-xl font-bold text-white mb-4">${movie.title}</h4>
+                        <button class="w-full bg-red-600 py-3 rounded-xl font-bold text-white uppercase text-sm tracking-wider">
+                            ▶ Dar o Play
                         </button>
                     </div>
                 `;
-                card.addEventListener('click', abrirBloqueio);
+                card.addEventListener('click', () => darOPlay(movie.title, movie.videoUrl));
                 grid.appendChild(card);
             });
         }
 
-        function abrirBloqueio() {
-            if (paywallModal) {
-                paywallModal.style.display = "flex";
+        function darOPlay(titulo, url) {
+            if (playerSection && videoIframe && playingTitle) {
+                playingTitle.innerText = "Assistindo agora: " + titulo;
+                videoIframe.src = url + "?autoplay=1"; // Ativa o autoplay ao clicar
+                playerSection.style.display = "block";
+                // Rola a tela automaticamente para o player de vídeo
+                playerSection.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
-        function fecharBloqueio() {
-            if (paywallModal) {
-                paywallModal.style.display = "none";
+        function fecharPlayer() {
+            if (playerSection && videoIframe) {
+                videoIframe.src = ""; // Para o som do vídeo
+                playerSection.style.display = "none";
             }
         }
     </script>
