@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NETSY - Conteúdo Gratuito</title>
+    <title>NETSY - Filmes e Desenhos</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         body { background-color: black; color: white; font-family: sans-serif; }
@@ -11,49 +11,65 @@
 </head>
 <body class="min-h-screen bg-black text-white">
 
-    <!-- BARRA DE TOPO (HEADER) -->
+    <!-- BARRA DE TOPO -->
     <header class="flex flex-col md:flex-row items-center justify-between px-6 py-4 border-b border-white/10 gap-4">
         <h1 class="text-3xl font-black text-red-600 tracking-wider">NETSY</h1>
         
-        <!-- BARRA DE PESQUISA VERDADEIRA -->
+        <!-- BARRA DE PESQUISA REAL -->
         <div class="w-full max-w-md flex gap-2">
-            <input type="text" id="searchInput" placeholder="Pesquisar desenho ou vídeo..." class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-2 text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 text-sm">
+            <input type="text" id="searchInput" placeholder="Pesquisar desenho ou filme..." class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-2 text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 text-sm">
             <button onclick="filtrarVideos()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-xl font-bold text-sm transition">Buscar</button>
         </div>
     </header>
 
-    <!-- PLAYER DE VÍDEO -->
+    <!-- PLAYER DE VÍDEO (CORRIGIDO - SEM BLOQUEIO) -->
     <section id="videoPlayerSection" style="display: none;" class="px-6 py-6 bg-zinc-900 border-b border-white/10">
         <div class="max-w-4xl mx-auto">
             <div class="flex justify-between items-center mb-4">
                 <h3 id="playingTitle" class="text-xl font-bold text-red-500">Assistindo</h3>
-                <button onclick="fecharPlayer()" class="bg-red-600 text-white px-3 py-1.5 rounded-xl font-bold text-xs cursor-pointer">✕ Fechar</button>
+                <button onclick="fecharPlayer()" class="bg-red-600 text-white px-3 py-1.5 rounded-xl font-bold text-xs cursor-pointer">✕ Fechar Player</button>
             </div>
             <div class="relative pt-[56.25%] bg-black rounded-2xl overflow-hidden shadow-2xl">
-                <iframe id="videoIframe" class="absolute inset-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- Player usando a tag padrão de vídeo da internet, livre de bloqueios do youtube -->
+                <video id="videoElement" class="absolute inset-0 w-full h-full" controls autoplay src=""></video>
             </div>
         </div>
     </section>
 
-    <!-- SEÇÃO DE RESULTADOS -->
+    <!-- SEÇÃO DO CATÁLOGO -->
     <section class="px-6 py-10">
-        <h3 id="sectionTitle" class="text-2xl font-black mb-6 border-l-4 border-red-600 pl-3">Catálogo de Vídeos</h3>
+        <h3 id="sectionTitle" class="text-2xl font-black mb-6 border-l-4 border-red-600 pl-3">Catálogo Familiar (100% Real)</h3>
         
-        <!-- Mensagem de não encontrado (escondida por padrão) -->
+        <!-- Mensagem de não encontrado -->
         <div id="noResults" style="display: none;" class="text-center py-10 text-zinc-500">
-            <p class="text-lg">Nenhum vídeo verdadeiro foi encontrado com esse nome. 😕</p>
-            <button onclick="limparBusca()" class="mt-4 text-red-500 underline font-bold text-sm">Mostrar todos os vídeos</button>
+            <p class="text-lg">Esse conteúdo não está cadastrado no site. 😕</p>
+            <button onclick="limparBusca()" class="mt-4 text-red-500 underline font-bold text-sm">Ver todos os vídeos disponíveis</button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="moviesGrid"></div>
     </section>
 
     <script>
-        // Lista real de vídeos disponíveis no site
+        // Vídeos reais em formatos livres que rodam em qualquer celular ou TV de graça
         const catalog = [
-            { title: 'Peppa Pig Brasil 🐷', tags: 'peppa pig porquinha desenho infantil criança', image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=600&auto=format&fit=crop', videoUrl: 'https://www.youtube.com/embed/6_9Z99W6pCg' },
-            { title: 'Mundo Bita - Desenho 🎩', tags: 'bita desenho musica infantil criança', image: 'https://images.unsplash.com/photo-1620428268482-cf1851a36764?q=80&w=600&auto=format&fit=crop', videoUrl: 'https://www.youtube.com/embed/0G6K7N_gP3k' },
-            { title: 'Carros e Caminhões 🚗', tags: 'carros caminhoes desenho infantil meninos brinquedo', image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=600&auto=format&fit=crop', videoUrl: 'https://www.youtube.com/embed/WbLz_T_IbyY' }
+            { 
+                title: 'Desenho: Big Buck Bunny 🐰 (Para Crianças)', 
+                tags: 'desenho infantil criança coelho coelhinho animação', 
+                image: 'https://images.unsplash.com/photo-1620428268482-cf1851a36764?q=80&w=600&auto=format&fit=crop', 
+                videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' 
+            },
+            { 
+                title: 'Filme: Sintel 🚀 (Aventura/Jovens)', 
+                tags: 'filme aventura jovens acao dragao cinema', 
+                image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=600&auto=format&fit=crop', 
+                videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4' 
+            },
+            { 
+                title: 'Animação: Tears of Steel 🤖 (Ficção/Adultos)', 
+                tags: 'filme adultos ficcao robo tecnologia acao', 
+                image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop', 
+                videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4' 
+            }
         ];
 
         const grid = document.getElementById('moviesGrid');
@@ -62,10 +78,9 @@
         const sectionTitle = document.getElementById('sectionTitle');
         
         const playerSection = document.getElementById('videoPlayerSection');
-        const videoIframe = document.getElementById('videoIframe');
+        const videoElement = document.getElementById('videoElement');
         const playingTitle = document.getElementById('playingTitle');
 
-        // Função honesta que renderiza os vídeos na tela
         function exibirVideos(lista) {
             if (!grid) return;
             grid.innerHTML = "";
@@ -85,7 +100,7 @@
                     <div class="p-5">
                         <h4 class="text-lg font-bold text-white mb-3">${item.title}</h4>
                         <button class="w-full bg-red-600 py-2.5 rounded-xl font-bold text-white text-sm uppercase">
-                            ▶ Assistir
+                            ▶ Dar o Play
                         </button>
                     </div>
                 `;
@@ -94,7 +109,6 @@
             });
         }
 
-        // Função que faz a pesquisa de verdade nas tags e títulos
         function filtrarVideos() {
             const termo = searchInput.value.toLowerCase().trim();
             if (termo === "") {
@@ -102,7 +116,7 @@
                 return;
             }
             
-            sectionTitle.innerText = "Resultados da Pesquisa";
+            sectionTitle.innerText = "Resultados encontrados:";
             const filtrados = catalog.filter(item => 
                 item.title.toLowerCase().includes(termo) || 
                 item.tags.toLowerCase().includes(termo)
@@ -113,34 +127,34 @@
 
         function limparBusca() {
             searchInput.value = "";
-            sectionTitle.innerText = "Catálogo de Vídeos";
+            sectionTitle.innerText = "Catálogo Familiar (100% Real)";
             exibirVideos(catalog);
         }
 
         function darOPlay(titulo, url) {
-            if (playerSection && videoIframe && playingTitle) {
-                playingTitle.innerText = "Assistindo agora: " + titulo;
-                videoIframe.src = url + "?autoplay=1"; 
+            if (playerSection && videoElement && playingTitle) {
+                playingTitle.innerText = "Assistindo: " + titulo;
+                videoElement.src = url; 
+                videoElement.load();
                 playerSection.style.display = "block";
                 playerSection.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
         function fecharPlayer() {
-            if (playerSection && videoIframe) {
-                videoIframe.src = ""; 
+            if (playerSection && videoElement) {
+                videoElement.pause();
+                videoElement.src = ""; 
                 playerSection.style.display = "none";
             }
         }
 
-        // Permite apertar "Enter" no teclado para pesquisar
         searchInput.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 filtrarVideos();
             }
         });
 
-        // Inicializa o site mostrando tudo
         exibirVideos(catalog);
     </script>
 </body>
