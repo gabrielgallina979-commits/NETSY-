@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+                <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NETSY - Filmes e Séries</title>
-    <!-- Tailwind CSS para deixar o visual moderno -->
+    <!-- Tailwind CSS para o visual moderno -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         body { background-color: black; color: white; font-family: sans-serif; }
@@ -16,8 +16,8 @@
     <header class="flex items-center justify-between px-8 py-6 border-b border-white/10">
         <h1 class="text-4xl font-black text-red-600">NETSY</h1>
         <div class="flex gap-4">
-            <button class="bg-white text-black px-5 py-2 rounded-xl font-bold opacity-80 cursor-pointer button-bloqueio">Entrar</button>
-            <button class="bg-red-600 px-5 py-2 rounded-xl font-bold cursor-pointer button-bloqueio">Assinar R$19</button>
+            <button onclick="abrirBloqueio()" class="bg-white text-black px-5 py-2 rounded-xl font-bold opacity-80 cursor-pointer">Entrar</button>
+            <button onclick="abrirBloqueio()" class="bg-red-600 px-5 py-2 rounded-xl font-bold cursor-pointer">Assinar R$19</button>
         </div>
     </header>
 
@@ -28,19 +28,18 @@
             <h2 class="text-6xl font-black leading-tight">Filmes e séries ilimitados</h2>
             <p class="text-xl text-white/80 mt-6 leading-relaxed">Assista na NETSY com streaming premium, IA personalizada e conteúdo exclusivo.</p>
             <div class="flex gap-5 mt-10">
-                <button class="bg-red-600 px-8 py-4 rounded-2xl text-xl font-bold hover:scale-105 transition cursor-pointer button-bloqueio">Assistir Agora</button>
-                <button class="bg-white/10 border border-white/20 px-8 py-4 rounded-2xl text-xl font-bold cursor-pointer button-bloqueio">Ver Catálogo</button>
+                <button onclick="abrirBloqueio()" class="bg-red-600 px-8 py-4 rounded-2xl text-xl font-bold hover:scale-105 transition cursor-pointer">Assistir Agora</button>
+                <button onclick="abrirBloqueio()" class="bg-white/10 border border-white/20 px-8 py-4 rounded-2xl text-xl font-bold cursor-pointer">Ver Catálogo</button>
             </div>
         </div>
     </section>
 
-    <!-- GRADE DE FILMES (CARDS) -->
+    <!-- GRADE DE FILMES -->
     <section class="px-8 py-14">
         <div class="flex items-center justify-between mb-8">
             <h3 class="text-3xl font-black">Em Alta</h3>
             <span class="text-white/60">NETSY Originals</span>
         </div>
-        <!-- Os filmes do script.js vão carregar aqui dentro automaticamente -->
         <div class="grid md:grid-cols-3 gap-8" id="moviesGrid"></div>
     </section>
 
@@ -49,14 +48,14 @@
         <div class="bg-gradient-to-r from-red-700 to-red-500 rounded-[40px] p-10 text-center shadow-2xl">
             <h3 class="text-5xl font-black">Assine a NETSY</h3>
             <p class="text-xl text-white/80 mt-5">Apenas R$19/mês com filmes, séries e streaming premium.</p>
-            <button class="mt-8 bg-white text-red-600 px-10 py-5 rounded-2xl text-2xl font-black hover:scale-105 transition cursor-pointer button-bloqueio">Começar Agora</button>
+            <button onclick="abrirBloqueio()" class="mt-8 bg-white text-red-600 px-10 py-5 rounded-2xl text-2xl font-black hover:scale-105 transition cursor-pointer">Começar Agora</button>
         </div>
     </section>
 
     <!-- TELA DE BLOQUEIO (POP-UP DO PIX DE R$ 19) -->
     <div id="paywallModal" style="display: none;" class="fixed inset-0 bg-black/90 z-50 flex justify-center items-center p-4">
         <div class="bg-zinc-900 border border-zinc-800 text-center p-8 rounded-[30px] max-w-md w-full relative shadow-2xl">
-            <span id="closePaywall" class="absolute top-4 right-6 text-zinc-500 text-3xl cursor-pointer hover:text-white">&times;</span>
+            <span onclick="fecharBloqueio()" class="absolute top-4 right-6 text-zinc-500 text-3xl cursor-pointer hover:text-white">&times;</span>
             <div class="text-5xl text-red-600 mb-4">🔒</div>
             <h2 class="text-2xl font-black mb-2">Conteúdo Exclusivo</h2>
             <p class="text-zinc-400 mb-6 text-sm">Assine o plano premium da NETSY para liberar o player e assistir a todo o catálogo imediatamente.</p>
@@ -67,7 +66,7 @@
                 <span class="text-zinc-500 text-xs block mt-1">Cobrança única via Pix ou Cartão</span>
             </div>
 
-            <!-- APAGUE O '#' ABAIXO E COLE O SEU LINK DO MERCADO PAGO -->
+            <!-- COLOQUE SEU LINK DO MERCADO PAGO ONDE DIZ '#' -->
             <a href="#" target="_blank" class="block w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-xl text-lg transition shadow-lg shadow-red-600/20">
                 🚀 Ativar Minha Assinatura
             </a>
@@ -75,7 +74,49 @@
         </div>
     </div>
 
-    <!-- Conecta com o seu arquivo script.js -->
-    <script src="script.js"></script>
+    <!-- JAVASCRIPT EMbutido DIRETO NO HTML PARA NÃO FALHAR -->
+    <script>
+        const movies = [
+            { title: 'Cyber Future', image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop' },
+            { title: 'Dark City', image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1200&auto=format&fit=crop' },
+            { title: 'Netsy Originals', image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=1200&auto=format&fit=crop' }
+        ];
+
+        const grid = document.getElementById('moviesGrid');
+        const paywallModal = document.getElementById('paywallModal');
+
+        // Carrega os filmes na tela
+        if (grid) {
+            grid.innerHTML = "";
+            movies.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = "bg-zinc-900 rounded-3xl overflow-hidden hover:scale-105 transition duration-300 shadow-2xl cursor-pointer";
+                card.innerHTML = `
+                    <img src="${movie.image}" class="w-full h-72 object-cover" />
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold text-white">${movie.title}</h4>
+                        <button class="mt-5 w-full bg-red-600 py-3 rounded-xl font-bold text-white">
+                            Assistir
+                        </button>
+                    </div>
+                `;
+                card.addEventListener('click', abrirBloqueio);
+                grid.appendChild(card);
+            });
+        }
+
+        // Funções de abrir e fechar a janela de R$ 19
+        function abrirBloqueio() {
+            if (paywallModal) {
+                paywallModal.style.display = "flex";
+            }
+        }
+
+        function fecharBloqueio() {
+            if (paywallModal) {
+                paywallModal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
